@@ -171,9 +171,11 @@ GameObject:
   - component: {fileID: 4698866747683153331}
   - component: {fileID: 4698866747683153330}
   - component: {fileID: 4698866747683153333}
+  - component: {fileID: 7634624796310631026}
+  - component: {fileID: 1449758596125659764}
   m_Layer: 5
   m_Name: RoomListPrefab
-  m_TagString: Untagged
+  m_TagString: VRButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -306,3 +308,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameText: {fileID: 4698866746712013252}
   SizeText: {fileID: 4698866747665211351}
+--- !u!65 &7634624796310631026
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4698866747683153335}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7001, y: 120, z: 0.01}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1449758596125659764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4698866747683153335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b619230ab8e6a4fa95abf2867034d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

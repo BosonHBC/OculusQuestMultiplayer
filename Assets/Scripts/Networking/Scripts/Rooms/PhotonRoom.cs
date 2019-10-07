@@ -41,6 +41,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public GameObject playerListingPrefab;
     public GameObject startButotn;
 
+    public Text RoomName;
+
     private void Awake()
     {
         if (PhotonRoom.Instance == null)
@@ -139,7 +141,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         photonPlayers = PhotonNetwork.PlayerList;
         m_PlayersInRoom = photonPlayers.Length;
         m_MyNumbersInRoom = m_PlayersInRoom;
-
+        UpdateRoomName();
         // Delay start
         if (bDelayStart)
         {
@@ -168,7 +170,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         photonPlayers = PhotonNetwork.PlayerList;
         m_PlayersInRoom++;
-
+        UpdateRoomName();
         if (bDelayStart)
         {
             Debug.Log("Display players in room out of max player possible: " + m_PlayersInRoom + " / " + Constants.MAX_PLAYER_IN_ROOM);
@@ -191,6 +193,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         Debug.Log(otherPlayer.NickName + "Has left the game");
         m_PlayersInRoom--;
+        UpdateRoomName();
+
         ClearPlayerListings();
         ListPlayers();
     }
@@ -237,10 +241,28 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     private void CreatePlayer()
     {
-        // Spawn player
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonNetworkPlayerTest"), Vector3.zero, Quaternion.identity);
+        string prafabName = "PhotonNetworkPlayerTest";
+        // Check If it contains this player type
+        {
+            
+            if (!NetPlayerSetting.Instance.Type2PrefabName.ContainsKey(NetPlayerSetting.Instance.MyType))
+            {
+                Debug.LogError("Fail to find relevant type [" + NetPlayerSetting.Instance.MyType + "] in prefab folders, fail to create VR Player");
+            }
+            else
+            {
+                // Set proper name
+                prafabName = NetPlayerSetting.Instance.Type2PrefabName[NetPlayerSetting.Instance.MyType];
+            }
+        }
+        // Spawn player in certain location and rotation, Implement later
+        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", prafabName), Vector3.zero, Quaternion.identity);
+        newPlayer.transform.position = NetworkPositions.Instance.m_PlayerStartPositions[(int)(NetPlayerSetting.Instance.MyType)].position;
     }
 
-
+    private void UpdateRoomName()
+    {
+        RoomName.text = PhotonNetwork.CurrentRoom.Name + "  " + m_PlayersInRoom + " / " + Constants.MAX_PLAYER_IN_ROOM;
+    }
 
 }

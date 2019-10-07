@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 {
     public static PhotonLobby Instance;
@@ -15,10 +13,46 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     [SerializeField] private GameObject m_roomListPrefab;
     [SerializeField] private Transform m_roomsPannel;
 
-    private void Awake()
+    [Header("ToggleGODependsOnHMDOrNot")]
+    [SerializeField] private GameObject m_ovrControllerGO;
+    [SerializeField] private Camera m_mainCamera;
+    [SerializeField] private VRRayButton[] rayButtons;
+#if UNITY_EDITOR
+    public bool Debug_EnableAllButton = true;
+#endif
+   private void Awake()
     {
         if (Instance == null)
             Instance = this;
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        if (!OVRManager.isHmdPresent)
+        {
+            // Not using VR, destroy the VR controller, it is not a vr player
+            Destroy(m_ovrControllerGO);
+#if UNITY_EDITOR
+            if (Debug_EnableAllButton) return;
+#endif
+            // Disable create lobby
+            DisableButton(ref rayButtons[0]);
+            // Disable join as nurse
+            DisableButton(ref rayButtons[2]);
+        }
+        else
+        {
+            // It is a VR player
+            Destroy(m_mainCamera);
+#if UNITY_EDITOR
+            if (Debug_EnableAllButton) return;
+#endif
+            // Disable join as remote operator
+            DisableButton(ref rayButtons[2]);
+        }
+
     }
 
     // Start is called before the first frame update
@@ -27,6 +61,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         PhotonNetwork.ConnectUsingSettings();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+
     }
 
     public override void OnConnectedToMaster()
@@ -34,7 +70,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         Debug.Log("Player has connected to the photon master server");
         //base.OnConnectedToMaster();
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.NickName = "Player_" + Random.Range(0,1000);
+        PhotonNetwork.NickName = "Player_" + Random.Range(0, 1000);
+        OnRoomNameChange("Server");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -50,7 +87,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     private void RemoveRoomListings()
     {
-        while(m_roomsPannel.childCount != 0)
+        while (m_roomsPannel.childCount != 0)
         {
             Destroy(m_roomsPannel.GetChild(0).gameObject);
         }
@@ -58,12 +95,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     void ListRoom(RoomInfo room)
     {
-        if(room.IsOpen && room.IsVisible)
+        if (room.IsOpen && room.IsVisible)
         {
             GameObject tempRoomList = Instantiate(m_roomListPrefab, m_roomsPannel);
 
             RoomBotton tempButton = tempRoomList.GetComponent<RoomBotton>();
-            tempButton.SetRoom(room.Name, room.MaxPlayers);
+            tempButton.SetRoom(room.Name, room.PlayerCount);
         }
     }
 
@@ -85,11 +122,19 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     }
 
 
-    public void JoinLobbyOnClick()
+    public void JoinLobbyOnClick(int type)
     {
         if (!PhotonNetwork.InLobby)
         {
+            // (0: is used by surgeon in creating room)
+            // 1: RemoteOperator, 2: Nurse 
+            NetPlayerSetting.Instance.MyType = (PlayerType)type;
             PhotonNetwork.JoinLobby();
         }
+    }
+
+    public void DisableButton(ref VRRayButton button)
+    {
+        button.ToggleEnableButton(false);
     }
 }
