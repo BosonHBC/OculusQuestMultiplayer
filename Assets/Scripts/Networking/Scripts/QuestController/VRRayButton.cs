@@ -17,6 +17,7 @@ public class VRRayButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_intaractable = true;
         m_NormalColor = m_attacnedButton.colors.normalColor;
         m_HighLightColor = m_attacnedButton.colors.highlightedColor;
     }

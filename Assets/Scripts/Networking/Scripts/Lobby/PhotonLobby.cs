@@ -50,7 +50,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
             if (Debug_EnableAllButton) return;
 #endif
             // Disable join as remote operator
-            DisableButton(ref rayButtons[2]);
+            DisableButton(ref rayButtons[1]);
         }
 
     }

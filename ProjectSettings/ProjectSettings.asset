@@ -154,7 +154,7 @@ PlayerSettings:
   protectGraphicsMemory: 0
   enableFrameTimingStats: 0
   useHDRDisplay: 0
-  m_ColorGamuts: 0000000003000000
+  m_ColorGamuts: 00000000
   targetPixelDensity: 30
   resolutionScalingMode: 0
   androidSupportedAspectRatio: 1
