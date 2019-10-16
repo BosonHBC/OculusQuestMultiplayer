@@ -17,6 +17,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     [SerializeField] private GameObject m_ovrControllerGO;
     [SerializeField] private Camera m_mainCamera;
     [SerializeField] private VRRayButton[] rayButtons;
+
+    public List<RoomInfo> m_roomListings;
+
 #if UNITY_EDITOR
     public bool Debug_EnableAllButton = true;
 #endif
@@ -72,24 +75,54 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.NickName = "Player_" + Random.Range(0, 1000);
         OnRoomNameChange("Server");
+        m_roomListings = new List<RoomInfo>();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
         RemoveRoomListings();
+        int tempIndex;
         foreach (var room in roomList)
         {
-            ListRoom(room);
+            if(m_roomListings != null)
+            {
+                tempIndex = m_roomListings.FindIndex(ByName(room.Name));
+            }
+            else
+            {
+                tempIndex = -1;
+            }
+            if(tempIndex != -1)
+            {
+                m_roomListings.RemoveAt(tempIndex);
+                Destroy(m_roomsPannel.GetChild(tempIndex).gameObject);
+            }
+            else
+            {
+                m_roomListings.Add(room);
+                ListRoom(room);
+            }
+            
         }
+    }
+
+    static System.Predicate<RoomInfo> ByName(string Name)
+    {
+        return delegate (RoomInfo room)
+        {
+            return room.Name == Name;
+        };
     }
 
 
     private void RemoveRoomListings()
     {
+        int i = 0;
         while (m_roomsPannel.childCount != 0)
         {
-            Destroy(m_roomsPannel.GetChild(0).gameObject);
+            Destroy(m_roomsPannel.GetChild(i).gameObject);
+            i++;
         }
     }
 
