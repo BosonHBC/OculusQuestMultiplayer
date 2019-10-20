@@ -20,10 +20,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public List<RoomInfo> m_roomListings;
 
+    private bool m_bCanCreateNJoinRoom = false;
 #if UNITY_EDITOR
     public bool Debug_EnableAllButton = true;
 #endif
-   private void Awake()
+    private void Awake()
     {
         if (Instance == null)
             Instance = this;
@@ -71,6 +72,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Player has connected to the photon master server");
+        m_bCanCreateNJoinRoom = true;
         //base.OnConnectedToMaster();
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.NickName = "Player_" + Random.Range(0, 1000);
@@ -85,7 +87,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         int tempIndex;
         foreach (var room in roomList)
         {
-            if(m_roomListings != null)
+            if (m_roomListings != null)
             {
                 tempIndex = m_roomListings.FindIndex(ByName(room.Name));
             }
@@ -93,7 +95,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
             {
                 tempIndex = -1;
             }
-            if(tempIndex != -1)
+            if (tempIndex != -1)
             {
                 m_roomListings.RemoveAt(tempIndex);
                 Destroy(m_roomsPannel.GetChild(tempIndex).gameObject);
@@ -103,7 +105,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
                 m_roomListings.Add(room);
                 ListRoom(room);
             }
-            
+
         }
     }
 
@@ -140,8 +142,13 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public void CreateRoom()
     {
-        RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)Constants.MAX_PLAYER_IN_ROOM };
-        PhotonNetwork.CreateRoom(m_RoomName, roomOps);
+        if (m_bCanCreateNJoinRoom)
+        {
+            RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)Constants.MAX_PLAYER_IN_ROOM };
+            PhotonNetwork.CreateRoom(m_RoomName, roomOps);
+            PhotonNetwork.NickName = "Surgeon";
+            NetPlayerSetting.Instance.MyType = PlayerType.Surgeon;
+        }
     }
 
     private void LeaveRoom()
@@ -157,11 +164,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public void JoinLobbyOnClick(int type)
     {
-        if (!PhotonNetwork.InLobby)
+        if (!PhotonNetwork.InLobby && m_bCanCreateNJoinRoom)
         {
             // (0: is used by surgeon in creating room)
             // 1: RemoteOperator, 2: Nurse 
             NetPlayerSetting.Instance.MyType = (PlayerType)type;
+            PhotonNetwork.NickName = ((PlayerType)type == PlayerType.RemoteOP) ? "RemoteOperator" : "Nurse";
             PhotonNetwork.JoinLobby();
         }
     }

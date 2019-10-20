@@ -241,27 +241,14 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     private void CreatePlayer()
     {
-        string prafabName = "PhotonNetworkPlayerTest";
-        // Check If it contains this player type
-        {
-            
-            if (!NetPlayerSetting.Instance.Type2PrefabName.ContainsKey(NetPlayerSetting.Instance.MyType))
-            {
-                Debug.LogError("Fail to find relevant type [" + NetPlayerSetting.Instance.MyType + "] in prefab folders, fail to create VR Player");
-            }
-            else
-            {
-                // Set proper name
-                prafabName = NetPlayerSetting.Instance.Type2PrefabName[NetPlayerSetting.Instance.MyType];
-            }
-        }
-        // Spawn player in certain location and rotation, Implement later
-        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", prafabName), Vector3.zero, Quaternion.identity);
-        newPlayer.transform.position = NetworkPositions.Instance.m_PlayerStartPositions[(int)(NetPlayerSetting.Instance.MyType)].position;
+        // Spawn player base and let base differentiate itself to different type of player
+        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayerBase"), Vector3.zero, Quaternion.identity);
+        Debug.Log("Room: MyType: " + NetPlayerSetting.Instance.MyType);
     }
 
     private void UpdateRoomName()
     {
+        if(RoomName)
         RoomName.text = PhotonNetwork.CurrentRoom.Name + "  " + m_PlayersInRoom + " / " + Constants.MAX_PLAYER_IN_ROOM;
     }
 
