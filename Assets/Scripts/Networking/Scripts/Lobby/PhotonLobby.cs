@@ -42,9 +42,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
             if (Debug_EnableAllButton) return;
 #endif
             // Disable create lobby
-            DisableButton(ref rayButtons[0]);
+ //           DisableButton(ref rayButtons[0]);
             // Disable join as nurse
-            DisableButton(ref rayButtons[2]);
+//            DisableButton(ref rayButtons[2]);
         }
         else
         {
@@ -54,7 +54,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
             if (Debug_EnableAllButton) return;
 #endif
             // Disable join as remote operator
-            DisableButton(ref rayButtons[1]);
+  //          DisableButton(ref rayButtons[1]);
         }
 
     }

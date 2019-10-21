@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3978876197852785785}
   - component: {fileID: 2697598006378608583}
   m_Layer: 0
-  m_Name: Sphere (1)
+  m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,12 +25,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327495985426148310}
-  m_LocalRotation: {x: 0.6908253, y: -0, z: -0, w: 0.7230217}
-  m_LocalPosition: {x: 0, y: -0.47, z: -0.13}
-  m_LocalScale: {x: 1, y: 0.77993506, z: 0.41244}
+  m_LocalRotation: {x: 0.69082534, y: -0, z: -0, w: 0.72302175}
+  m_LocalPosition: {x: 0, y: -0.0077937227, z: 0.6061488}
+  m_LocalScale: {x: 1, y: 1.8881577, z: 0.2693874}
   m_Children: []
-  m_Father: {fileID: 4400463641710398731}
-  m_RootOrder: 3
+  m_Father: {fileID: 4210719201521316149}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 87.39101, y: 0, z: 0}
 --- !u!33 &3978876197852785785
 MeshFilter:
@@ -88,8 +88,8 @@ GameObject:
   - component: {fileID: 4626055756963448586}
   - component: {fileID: 1929148009359343295}
   m_Layer: 0
-  m_Name: Camera
-  m_TagString: Untagged
+  m_Name: Local_Camera
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,7 +106,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4400463641710398731}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1929148009359343295
 Camera:
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 6382877821998257607}
   - component: {fileID: 6579992403675738153}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Local_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,7 @@ RectTransform:
   m_Children:
   - {fileID: 8815805242973315699}
   m_Father: {fileID: 4400463641710398731}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -201,7 +201,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 1929148009359343295}
-  m_PlaneDistance: 20
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 5279019740864272404}
   - component: {fileID: 6991266421224923976}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Debug_Ref
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,7 +278,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.458, z: -0.38}
   m_LocalScale: {x: 1, y: 1.5397, z: 0.41244}
-  m_Children: []
+  m_Children:
+  - {fileID: 9123790844579361179}
   m_Father: {fileID: 4400463641710398731}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -395,7 +396,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 144
+    m_FontSize: 49
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
@@ -431,6 +432,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4400463641710398731}
+  - component: {fileID: 1632004835473314669}
   m_Layer: 0
   m_Name: 1_RemoteOperator
   m_TagString: Untagged
@@ -449,10 +451,25 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4626055756963448586}
   - {fileID: 8779685714413545237}
+  - {fileID: 4626055756963448586}
   - {fileID: 4210719201521316149}
-  - {fileID: 9123790844579361179}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1632004835473314669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8601984403963959523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8512845aefefdb64890fab427682386b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PV: {fileID: 0}
+  m_myType: 0
+  m_CanvasObj: {fileID: 2131654943517074720}
+  m_Camera: {fileID: 1929148009359343295}
