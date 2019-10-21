@@ -14,14 +14,19 @@ public class PhotonSurgeon : PhotonPlayerSetupBase
     [SerializeField] private Transform m_RHandTr_Local;
     // The following three transform should be sync to the remote player
     [Header("Remote Comp")]
-    [SerializeField] private Transform m_HeadTr_Remote;
     [SerializeField] private Transform m_LHandTr_Remote;
     [SerializeField] private Transform m_RHandTr_Remote;
     [SerializeField] private Transform m_Camera_Remote;
+
+    // private received transformation data
+    private SimpleTransform m_LHand_NetRef;
+    private SimpleTransform m_RHand_NetRef;
+    private SimpleTransform m_Camera_NetRef;
+    private float m_LerpTime;
     // Start is called before the first frame update
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
+        m_LerpTime = m_SendRate;
     }
     protected override void SetupAsRemotePlayer()
     {
@@ -43,10 +48,11 @@ public class PhotonSurgeon : PhotonPlayerSetupBase
 
         // 2. Destroy Remote Component
         //     Destroy local player's Mesh and the sync camera comp
-        Destroy(m_HeadTr_Remote.GetChild(0).gameObject);
         Destroy(m_LHandTr_Remote.GetChild(0).gameObject);
         Destroy(m_RHandTr_Remote.GetChild(0).gameObject);
+        Destroy(m_Camera_Remote.GetChild(0).gameObject);
         Destroy(m_Camera_Remote.GetComponent<Camera>());
+
     }
 
     void ConstrainTransform(ref Transform i_source, Transform i_Target)
@@ -59,16 +65,53 @@ public class PhotonSurgeon : PhotonPlayerSetupBase
     void Update()
     {
         if (PV.IsMine)
-        {
-
-            if(m_HeadTr_Local && m_LHandTr_Local && m_RHandTr_Local && m_MainCam)
+        {        
+            // if it is local player, update network reference for remote clients
+            if (m_HeadTr_Local && m_LHandTr_Local && m_RHandTr_Local && m_MainCam)
             {
-                // Network sync
-                ConstrainTransform(ref m_HeadTr_Remote, m_HeadTr_Local);
+                // prepare data for Network sync
                 ConstrainTransform(ref m_LHandTr_Remote, m_LHandTr_Local);
                 ConstrainTransform(ref m_RHandTr_Remote, m_RHandTr_Local);
                 ConstrainTransform(ref m_Camera_Remote, m_MainCam.transform);
             }
+            //HandleSendTransformation();
         }
+        else
+        {
+            // if it is a remote client, Lerp the movement according to network reference
+         //   m_LHand_NetRef.LerpToThisTransform(m_LHandTr_Remote, m_LerpTime);
+         //   m_RHand_NetRef.LerpToThisTransform(m_RHandTr_Remote, m_LerpTime);
+         //   m_Camera_NetRef.LerpToThisTransform(m_Camera_Remote, m_LerpTime);
+        }
+    }
+
+    void HandleSendTransformation()
+    {
+        m_sendCollpaseTime += Time.deltaTime;
+        if (m_sendCollpaseTime > m_SendRate)
+        {
+            m_sendCollpaseTime = 0;
+            // Send one data to all other client of my type
+              PV.RPC("RPC_ReceiveTransforms", RpcTarget.Others, 
+                  m_LHandTr_Remote.position, m_LHandTr_Remote.rotation, 
+                  m_RHandTr_Remote.position, m_RHandTr_Remote.rotation, 
+                  m_Camera_Remote.position, m_Camera_Remote.rotation);
+        }
+    }
+
+    [PunRPC]
+    void RPC_ReceiveTransforms(
+        Vector3 i_LHand_Pos, Quaternion i_LHand_Quta,
+        Vector3 i_RHand_Pos, Quaternion i_RHand_Quta,
+        Vector3 i_Camera_Pos, Quaternion i_Camera_Quta)
+    {
+        m_LHand_NetRef.Pos = i_LHand_Pos;
+        m_LHand_NetRef.Quat = i_LHand_Quta;
+
+        m_RHand_NetRef.Pos =    i_RHand_Pos;
+        m_RHand_NetRef.Quat =   i_RHand_Quta;
+
+        m_Camera_NetRef.Pos = i_Camera_Pos;
+        m_Camera_NetRef.Quat = i_Camera_Quta;
     }
 }

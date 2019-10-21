@@ -5,14 +5,30 @@ using Photon.Pun;
 
 public class PhotonPlayerSetupBase : MonoBehaviour
 {
-    [SerializeField] protected PhotonView PV;
-    [SerializeField] protected PlayerType m_myType;
-    // Start is called before the first frame update
-    protected virtual void Start()
+    protected struct SimpleTransform
     {
-        PV = transform.parent.GetComponent<PhotonView>();
-        m_myType = transform.parent.GetComponent<PhotonPlayer>().myType;
+       public Vector3 Pos;
+        public Quaternion Quat;
 
+        public void LerpToThisTransform(Transform i_Transform, float i_LerpTime)
+        {
+            i_Transform.position = Vector3.Lerp(i_Transform.position, Pos, i_LerpTime);
+            i_Transform.rotation = Quaternion.Lerp(i_Transform.rotation, Quat, i_LerpTime);
+        }
+    }
+
+    [SerializeField] protected PhotonView PV;
+    public PlayerType m_myType;
+
+    [SerializeField]
+    protected float m_SendRate = 0.05f;
+    protected float m_sendCollpaseTime;
+    // Start is called before the first frame update
+    
+        public void SetUpReference(PhotonView i_PV, PhotonPlayer i_PP)
+    {
+        PV = i_PV;
+        m_myType = i_PP.myType;
         if (PV.IsMine)
         {
             SetupAsLocalPlayer();

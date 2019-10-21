@@ -9,10 +9,6 @@ public class PhotonRemoteOP : PhotonPlayerSetupBase
     [SerializeField] private GameObject m_CanvasObj;
     [SerializeField] private Camera m_Camera;
 
-    protected override void Start()
-    {
-        base.Start();
-    }
 
     protected override void SetupAsRemotePlayer()
     {

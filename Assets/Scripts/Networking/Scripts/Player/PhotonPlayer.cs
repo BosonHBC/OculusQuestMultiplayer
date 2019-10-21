@@ -41,16 +41,23 @@ public class PhotonPlayer : MonoBehaviour
         }
         // Set up Player base transform
         Transform playerStart = NetworkPositions.Instance.m_PlayerStartPositions[(int)myType];
-        transform.position = playerStart.position;
-        transform.rotation = playerStart.rotation;
-        transform.name = prafabName + "_parent_" + (PV.IsMine ? "IsMine" : "NotMine");
-        // Set up avatar transform
-        myAvatar = Instantiate(Resources.Load<GameObject>(Path.Combine("PhotonPrefabs", prafabName)), Vector3.zero, Quaternion.identity);
-        myAvatar.name = prafabName;
-        myAvatar.transform.parent = transform;
-        myAvatar.transform.localPosition = Vector3.zero;
-        myAvatar.transform.localRotation = Quaternion.identity;
+
+        if (PV.IsMine)
+        {
+            // Set up avatar transform
+            myAvatar = PhotonNetwork.Instantiate(/*Resources.Load<GameObject>*/(Path.Combine("PhotonPrefabs", prafabName)), playerStart.position, playerStart.rotation);
+            PV.RPC("SetUpLocalAvatar", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, prafabName);
+        }
     }
+    [PunRPC]
+    void SetUpLocalAvatar(int i_viewID, string i_name)
+    {
+        myAvatar = PhotonView.Find(i_viewID).gameObject;
+        myAvatar.name = i_name + "_"+ (PV.IsMine ? "IsMine" : "NotMine");
+        myAvatar.GetComponent<PhotonPlayerSetupBase>().SetUpReference(PV, this);
+        transform.name = i_name + "_parent_" + (PV.IsMine ? "IsMine" : "NotMine");
+    }
+
     private void Update()
     {
         if (myAvatar == null && m_bMyTypeReceived)
