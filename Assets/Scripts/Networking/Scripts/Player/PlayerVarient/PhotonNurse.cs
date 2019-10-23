@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PhotonSurgeon : PhotonPlayerSetupBase
+public class PhotonNurse : PhotonPlayerSetupBase
 {
 
     [Header("Local Comp")]
@@ -26,7 +26,7 @@ public class PhotonSurgeon : PhotonPlayerSetupBase
     protected override void SetupAsRemotePlayer()
     {
         base.SetupAsRemotePlayer();
-        Debug.Log("Surgeon setup as remote player");
+        Debug.Log("Nurse setup as remote player");
 
         // Destroy local component
         Destroy(m_VRGO);
@@ -36,7 +36,7 @@ public class PhotonSurgeon : PhotonPlayerSetupBase
     protected override void SetupAsLocalPlayer()
     {
         base.SetupAsLocalPlayer();
-        Debug.Log("Surgeon setup as local player");
+        Debug.Log("Nurse setup as local player");
 
         // 1. Main Camera
         m_MainCam.tag = "MainCamera";

@@ -5,6 +5,13 @@ using Photon.Pun;
 
 public class PhotonPlayerSetupBase : MonoBehaviour
 {
+    // static functions
+   public static  void ConstrainTransform(ref Transform i_source, Transform i_Target)
+    {
+        i_source.position = i_Target.position;
+        i_source.rotation = i_Target.rotation;
+    }
+
     protected struct SimpleTransform
     {
        public Vector3 Pos;
@@ -20,9 +27,6 @@ public class PhotonPlayerSetupBase : MonoBehaviour
     [SerializeField] protected PhotonView PV;
     public PlayerType m_myType;
 
-    [SerializeField]
-    protected float m_SendRate = 0.05f;
-    protected float m_sendCollpaseTime;
     // Start is called before the first frame update
     
         public void SetUpReference(PhotonView i_PV, PhotonPlayer i_PP)

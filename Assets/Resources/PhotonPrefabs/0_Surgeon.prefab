@@ -402,7 +402,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
   m_myType: 0
-  m_SendRate: 0.05
   m_MainCam: {fileID: 1206331585333047468}
   m_VRGO: {fileID: 1206331585331426840}
   m_HeadTr_Local: {fileID: 1206331585331522096}
