@@ -17,6 +17,7 @@ public class PhotonSurgeon : PhotonPlayerSetupBase
     [SerializeField] private Transform m_LHandTr_Remote;
     [SerializeField] private Transform m_RHandTr_Remote;
     [SerializeField] private Transform m_Camera_Remote;
+    [SerializeField] private GameObject m_AvatarDisplay;
 
     // Start is called before the first frame update
     protected void Start()
@@ -45,9 +46,8 @@ public class PhotonSurgeon : PhotonPlayerSetupBase
         //     Destroy local player's Mesh and the sync camera comp
         Destroy(m_LHandTr_Remote.GetChild(0).gameObject);
         Destroy(m_RHandTr_Remote.GetChild(0).gameObject);
-        Destroy(m_Camera_Remote.GetChild(0).gameObject);
         Destroy(m_Camera_Remote.GetComponent<Camera>());
-
+        Destroy(m_AvatarDisplay);
     }
 
 
