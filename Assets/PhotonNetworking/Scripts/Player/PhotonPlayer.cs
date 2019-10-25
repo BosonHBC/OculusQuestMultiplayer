@@ -31,7 +31,7 @@ public class PhotonPlayer : MonoBehaviour
 
             if (!NetPlayerSetting.Instance.Type2PrefabName.ContainsKey(myType))
             {
-                Debug.LogError("Fail to find relevant type [" + myType + "] in prefab folders, fail to create VR Player");
+                Constants.LogError("Fail to find relevant type [" + myType + "] in prefab folders, fail to create VR Player");
             }
             else
             {
@@ -40,7 +40,7 @@ public class PhotonPlayer : MonoBehaviour
             }
         }
         // Set up Player base transform
-        Transform playerStart = NetworkPositions.Instance.m_PlayerStartPositions[(int)myType];
+        Transform playerStart = NetworkReferences.Instance.m_PlayerStartPositions[(int)myType];
 
         if (PV.IsMine)
         {
@@ -56,6 +56,7 @@ public class PhotonPlayer : MonoBehaviour
         myAvatar.name = i_name + "_"+ (PV.IsMine ? "IsMine" : "NotMine");
         myAvatar.GetComponent<PhotonPlayerSetupBase>().SetUpReference(PV, this);
         transform.name = i_name + "_parent_" + (PV.IsMine ? "IsMine" : "NotMine");
+        NetworkReferences.Instance.m_PlayerList.Add(myAvatar.GetComponent<PhotonPlayerSetupBase>());
     }
 
     private void Update()
@@ -71,14 +72,14 @@ public class PhotonPlayer : MonoBehaviour
     {
         PV.RPC("RPC_ReceiveType", RpcTarget.OthersBuffered, (int)i_myType);
 
-        Debug.Log("Send My Type: " + i_myType);
+        Constants.Log("Send My Type: " + i_myType);
     }
     [PunRPC]
     void RPC_ReceiveType(int i_myType)
     {
         myType = (PlayerType)i_myType;
         m_bMyTypeReceived = true;
-        Debug.Log("Received My Type: " + myType);
+        Constants.Log("Received My Type: " + myType);
     }
 
 }

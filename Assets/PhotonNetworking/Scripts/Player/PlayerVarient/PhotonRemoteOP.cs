@@ -9,12 +9,14 @@ public class PhotonRemoteOP : PhotonPlayerSetupBase
     [SerializeField] private GameObject m_CanvasObj;
     [SerializeField] private Camera m_Camera;
 
+    [SerializeField] private GameObject m_startButton;
+    private bool m_bCanStartGame = true;
 
     protected override void SetupAsRemotePlayer()
     {
         base.SetupAsRemotePlayer();
 
-        Debug.Log("RemoteOP setup as remote player");
+        Constants.Log("RemoteOP setup as remote player, my Type: " + NetPlayerSetting.Instance.MyType);
         // Destroy local component
         Destroy(m_Camera.gameObject);
         Destroy(m_CanvasObj);
@@ -23,7 +25,7 @@ public class PhotonRemoteOP : PhotonPlayerSetupBase
     protected override void SetupAsLocalPlayer()
     {
         base.SetupAsLocalPlayer();
-        Debug.Log("RemoteOP setup as local player");
+        Constants.Log("RemoteOP setup as local player, my Type: " + NetPlayerSetting.Instance.MyType);
 
         // Initialize remote operator parameters
         m_Camera.tag = "MainCamera";
@@ -31,11 +33,26 @@ public class PhotonRemoteOP : PhotonPlayerSetupBase
 
     }
 
+    public void StartGame()
+    {
+        if (m_bCanStartGame)
+        {
+            NetGameManager.instance.StartSimulation();
+        }
+
+    }
+
     private void Update()
     {
+
+    }
+
+    public override void StartSimulation()
+    {
+        base.StartSimulation();
         if (PV.IsMine)
         {
-
+            m_startButton.SetActive(false);
         }
 
     }

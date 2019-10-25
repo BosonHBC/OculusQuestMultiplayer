@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkPositions : MonoBehaviour
+public class NetworkReferences : MonoBehaviour
 {
-    public static NetworkPositions Instance;
+    public static NetworkReferences Instance;
 
     private void Awake()
     {
@@ -14,6 +14,6 @@ public class NetworkPositions : MonoBehaviour
 
         }
     }
-
+    public List<PhotonPlayerSetupBase> m_PlayerList = new List<PhotonPlayerSetupBase>();
     public List<Transform> m_PlayerStartPositions = new List<Transform>();
 }

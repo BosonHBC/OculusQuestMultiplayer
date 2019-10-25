@@ -33,9 +33,11 @@ public class PhotonPlayerSetupBase : MonoBehaviour
     {
         PV = i_PV;
         m_myType = i_PP.myType;
+
         if (PV.IsMine)
         {
             SetupAsLocalPlayer();
+            NetPlayerSetting.Instance.MyType = m_myType;
         }
         else
         {
@@ -51,5 +53,11 @@ public class PhotonPlayerSetupBase : MonoBehaviour
     protected virtual void SetupAsLocalPlayer()
     {
 
+    }
+
+    public virtual void StartSimulation()
+    {
+        // Set up local behaviours
+        Constants.Log(name + " starts simulation!");
     }
 }

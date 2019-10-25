@@ -27,7 +27,7 @@ public class PhotonSurgeon : PhotonPlayerSetupBase
     protected override void SetupAsRemotePlayer()
     {
         base.SetupAsRemotePlayer();
-        Debug.Log("Surgeon setup as remote player");
+        Constants.Log("Surgeon setup as remote player, my Type: " + NetPlayerSetting.Instance.MyType);
 
         // Destroy local component
         Destroy(m_VRGO);
@@ -37,7 +37,7 @@ public class PhotonSurgeon : PhotonPlayerSetupBase
     protected override void SetupAsLocalPlayer()
     {
         base.SetupAsLocalPlayer();
-        Debug.Log("Surgeon setup as local player");
+        Constants.Log("Surgeon setup as local player, my Type: " + NetPlayerSetting.Instance.MyType);
 
         // 1. Main Camera
         m_MainCam.tag = "MainCamera";

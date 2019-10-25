@@ -236,6 +236,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         if(m_CurrentSceneName == Constants.MAIN_SCENE_NAME)
         {
             CreatePlayer();
+            PhotonNetwork.InstantiateSceneObject(Path.Combine("PhotonPrefabs", "GameManager"), Vector3.zero, Quaternion.identity);
         }
     }
 

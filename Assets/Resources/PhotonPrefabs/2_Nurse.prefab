@@ -518,6 +518,7 @@ MonoBehaviour:
   m_LHandTr_Remote: {fileID: 1351097045278672747}
   m_RHandTr_Remote: {fileID: 6070810925400688118}
   m_Camera_Remote: {fileID: 2057387181493189090}
+  m_AvatarDisplay: {fileID: 4311119952921416745}
 --- !u!1 &1206331585331426838
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,7 +772,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6801040317450846303}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.478, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1206331585331522106}
@@ -1142,6 +1143,12 @@ PrefabInstance:
       objectReference: {fileID: 6801040317450846303}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faea95f42afda87468b3080c9badc3fb, type: 3}
+--- !u!1 &4311119952921416745 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5046428433576996575, guid: faea95f42afda87468b3080c9badc3fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 9069316361019423478}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &977128396249900602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8094052875281325260, guid: faea95f42afda87468b3080c9badc3fb,
