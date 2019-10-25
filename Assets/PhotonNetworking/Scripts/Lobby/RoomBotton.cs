@@ -18,7 +18,7 @@ public class RoomBotton : MonoBehaviour
         m_roomName = _name;
         m_roomSize = _size;
         NameText.text = m_roomName;
-        SizeText.text = m_roomSize.ToString() + " / " + Constants.MAX_PLAYER_IN_ROOM;
+        SizeText.text = m_roomSize.ToString() + " / " + GameplayStatics.MAX_PLAYER_IN_ROOM;
     }
 
     public void JoinRoomOnClick()

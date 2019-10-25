@@ -58,6 +58,6 @@ public class PhotonPlayerSetupBase : MonoBehaviour
     public virtual void StartSimulation()
     {
         // Set up local behaviours
-        Constants.Log(name + " starts simulation!");
+        GameplayStatics.Log(name + " starts simulation!");
     }
 }

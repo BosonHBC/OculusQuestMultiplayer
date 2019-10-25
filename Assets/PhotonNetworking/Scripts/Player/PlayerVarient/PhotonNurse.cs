@@ -27,7 +27,7 @@ public class PhotonNurse : PhotonPlayerSetupBase
     protected override void SetupAsRemotePlayer()
     {
         base.SetupAsRemotePlayer();
-        Constants.Log("Nurse setup as remote player, my Type: " + NetPlayerSetting.Instance.MyType);
+        GameplayStatics.Log("Nurse setup as remote player, my Type: " + NetPlayerSetting.Instance.MyType);
 
         // Destroy local component
         Destroy(m_VRGO);
@@ -37,7 +37,7 @@ public class PhotonNurse : PhotonPlayerSetupBase
     protected override void SetupAsLocalPlayer()
     {
         base.SetupAsLocalPlayer();
-        Constants.Log("Nurse setup as local player, my Type: " + NetPlayerSetting.Instance.MyType);
+        GameplayStatics.Log("Nurse setup as local player, my Type: " + NetPlayerSetting.Instance.MyType);
 
         // 1. Main Camera
         m_MainCam.tag = "MainCamera";

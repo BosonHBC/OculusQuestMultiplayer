@@ -144,7 +144,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
         if (m_bCanCreateNJoinRoom)
         {
-            RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)Constants.MAX_PLAYER_IN_ROOM };
+            RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)GameplayStatics.MAX_PLAYER_IN_ROOM };
             PhotonNetwork.CreateRoom(m_RoomName, roomOps);
             PhotonNetwork.NickName = "Surgeon";
             NetPlayerSetting.Instance.MyType = PlayerType.Surgeon;

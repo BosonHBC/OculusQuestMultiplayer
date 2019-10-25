@@ -82,7 +82,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         m_readyToStart = false;
 
         m_lessThanMaxPlayers = m_StartingTime;
-        m_atMaxPlayers = Constants.MAX_PLAYER_IN_ROOM;
+        m_atMaxPlayers = GameplayStatics.MAX_PLAYER_IN_ROOM;
         m_timeToStart = m_StartingTime;
     }
 
@@ -145,12 +145,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         // Delay start
         if (bDelayStart)
         {
-            Debug.Log("Display players in room out of max player possible: " + m_PlayersInRoom + " / " + Constants.MAX_PLAYER_IN_ROOM);
+            Debug.Log("Display players in room out of max player possible: " + m_PlayersInRoom + " / " + GameplayStatics.MAX_PLAYER_IN_ROOM);
             if(m_PlayersInRoom > 1)
             {
                 m_readyToCount = true;
             }
-            if(m_PlayersInRoom == Constants.MAX_PLAYER_IN_ROOM)
+            if(m_PlayersInRoom == GameplayStatics.MAX_PLAYER_IN_ROOM)
             {
                 m_readyToStart = true;
                 if (!PhotonNetwork.IsMasterClient) return;
@@ -173,12 +173,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         UpdateRoomName();
         if (bDelayStart)
         {
-            Debug.Log("Display players in room out of max player possible: " + m_PlayersInRoom + " / " + Constants.MAX_PLAYER_IN_ROOM);
+            Debug.Log("Display players in room out of max player possible: " + m_PlayersInRoom + " / " + GameplayStatics.MAX_PLAYER_IN_ROOM);
             if (m_PlayersInRoom > 1)
             {
                 m_readyToCount = true;
             }
-            if (m_PlayersInRoom == Constants.MAX_PLAYER_IN_ROOM)
+            if (m_PlayersInRoom == GameplayStatics.MAX_PLAYER_IN_ROOM)
             {
                 m_readyToStart = true;
                 if (!PhotonNetwork.IsMasterClient) return;
@@ -208,7 +208,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
         }
-        PhotonNetwork.LoadLevel(Constants.MAIN_SCENE_NAME);
+        PhotonNetwork.LoadLevel(GameplayStatics.MAIN_SCENE_NAME);
     }
     void ClearPlayerListings()
     {
@@ -233,7 +233,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         m_CurrentSceneName = scene.name;
-        if(m_CurrentSceneName == Constants.MAIN_SCENE_NAME)
+        if(m_CurrentSceneName == GameplayStatics.MAIN_SCENE_NAME)
         {
             CreatePlayer();
             PhotonNetwork.InstantiateSceneObject(Path.Combine("PhotonPrefabs", "GameManager"), Vector3.zero, Quaternion.identity);
@@ -250,7 +250,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private void UpdateRoomName()
     {
         if(RoomName)
-        RoomName.text = PhotonNetwork.CurrentRoom.Name + "  " + m_PlayersInRoom + " / " + Constants.MAX_PLAYER_IN_ROOM;
+        RoomName.text = PhotonNetwork.CurrentRoom.Name + "  " + m_PlayersInRoom + " / " + GameplayStatics.MAX_PLAYER_IN_ROOM;
     }
 
 }

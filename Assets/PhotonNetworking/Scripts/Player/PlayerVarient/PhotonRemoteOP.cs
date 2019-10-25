@@ -16,7 +16,7 @@ public class PhotonRemoteOP : PhotonPlayerSetupBase
     {
         base.SetupAsRemotePlayer();
 
-        Constants.Log("RemoteOP setup as remote player, my Type: " + NetPlayerSetting.Instance.MyType);
+        GameplayStatics.Log("RemoteOP setup as remote player, my Type: " + NetPlayerSetting.Instance.MyType);
         // Destroy local component
         Destroy(m_Camera.gameObject);
         Destroy(m_CanvasObj);
@@ -25,7 +25,7 @@ public class PhotonRemoteOP : PhotonPlayerSetupBase
     protected override void SetupAsLocalPlayer()
     {
         base.SetupAsLocalPlayer();
-        Constants.Log("RemoteOP setup as local player, my Type: " + NetPlayerSetting.Instance.MyType);
+        GameplayStatics.Log("RemoteOP setup as local player, my Type: " + NetPlayerSetting.Instance.MyType);
 
         // Initialize remote operator parameters
         m_Camera.tag = "MainCamera";

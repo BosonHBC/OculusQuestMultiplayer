@@ -39,13 +39,13 @@ public class NetGameManager : MonoBehaviour
             }
             else
             {
-                Constants.Log("Start Game Fail because wrong player type, myType: " + NetPlayerSetting.Instance.MyType);
+                GameplayStatics.Log("Start Game Fail because wrong player type, myType: " + NetPlayerSetting.Instance.MyType);
             }
 
         }
         else
         {
-            Constants.Log("Start Game Fail because game has already started");
+            GameplayStatics.Log("Start Game Fail because game has already started");
         }
     }
 

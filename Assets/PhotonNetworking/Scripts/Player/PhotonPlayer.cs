@@ -31,7 +31,7 @@ public class PhotonPlayer : MonoBehaviour
 
             if (!NetPlayerSetting.Instance.Type2PrefabName.ContainsKey(myType))
             {
-                Constants.LogError("Fail to find relevant type [" + myType + "] in prefab folders, fail to create VR Player");
+                GameplayStatics.LogError("Fail to find relevant type [" + myType + "] in prefab folders, fail to create VR Player");
             }
             else
             {
@@ -72,14 +72,14 @@ public class PhotonPlayer : MonoBehaviour
     {
         PV.RPC("RPC_ReceiveType", RpcTarget.OthersBuffered, (int)i_myType);
 
-        Constants.Log("Send My Type: " + i_myType);
+        GameplayStatics.Log("Send My Type: " + i_myType);
     }
     [PunRPC]
     void RPC_ReceiveType(int i_myType)
     {
         myType = (PlayerType)i_myType;
         m_bMyTypeReceived = true;
-        Constants.Log("Received My Type: " + myType);
+        GameplayStatics.Log("Received My Type: " + myType);
     }
 
 }
